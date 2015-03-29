@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!--<script src="index.js"></script>-->
     <meta charset="UTF-8">
     <title></title>
 </head>
@@ -66,7 +68,7 @@
                 inches
             </td>
         </tr>
-        <tr>
+        <tr id="hipRow" hidden>
             <td>
                 Hip:
             </td>
@@ -80,6 +82,33 @@
             </td>
         </tr>
     </table>
-        <input type="button" value="Calculate!" >
+        <input type="button" value="Calculate!" onclick="calculateBodyFat()">
 </body>
+
+<script>
+    /**
+     * Created by joshua on 3/28/2015.
+     */
+    var hipRow = document.getElementById("hipRow");
+
+    $('#sex2').click(function(e) {
+        hipRow.hidden = false;
+    });
+
+    $('#sex1').click(function(e) {
+        hipRow.hidden = true;
+    });
+
+    function calculateBodyFat() {
+        var isMale = document.getElementById("sex1").checked;
+        var heightFeet = document.getElementById("hfeet").value;
+        var heightInches = document.getElementById("hinch").value;
+        var neckFeet = document.getElementById("nfeet").value;
+        var neckInches = document.getElementById("ninch").value;
+        var waistFeet = document.getElementById("wFeet").value;
+        var wasitInches = document.getElementById("winch").value;
+
+
+    }
+</script>
 </html>
