@@ -105,10 +105,18 @@
         var heightInches = document.getElementById("hinch").value;
         var neckFeet = document.getElementById("nfeet").value;
         var neckInches = document.getElementById("ninch").value;
-        var waistFeet = document.getElementById("wFeet").value;
+        var waistFeet = document.getElementById("wfeet").value;
         var wasitInches = document.getElementById("winch").value;
+        var hipFeet = document.getElementById("hfeet").value;
+        var hipInches = document.getElementById("hinch").value;
 
-
-    }
+        if (isMale) {
+           console.log(495 / ( 1.0324 - (0.19077 * (Math.log(waistFeet - neckFeet)/Math.log(10)))
+           + (0.15456) * (Math.log(heightFeet)/Math.log(10))) - 450);
+        } else {
+            console.log(495 / ( 1.29579 - (0.35004 * (Math.log(waistFeet + hipFeet - neckFeet)/Math.log(10)))
+            + (0.22100) * (Math.log(heightFeet)/Math.log(10))) - 450);
+        }
+            }
 </script>
 </html>
