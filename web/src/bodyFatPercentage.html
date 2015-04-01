@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div id="header">
+    <h1>Fitness Tracker</h1>
+</div>
+<style>
+    #header {
+        background-color: green;
+        color: white;
+        text-align: center;
+        padding: 6px;
+    }
+</style>
+<table>
+    <tr>
+        <td>
+            Gender:
+        </td>
+        <td>
+            <label for="sex1">
+                <input type="radio" name="genderType" id="sex1" checked>
+                Male
+            </label>
+        </td>
+        <td>
+            <label for="sex2">
+                <input type="radio" name="genderType" id="sex2">
+                Female
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Height:
+        </td>
+        <td>
+            <input type="text"  id="hfeet"
+                   style="text-align: right;">
+            feet
+        </td>
+        <td>
+            <input type="text" id="hinch"
+                   style="text-align: right;">
+            inches
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Neck:
+        </td>
+        <td>
+            <input type="text" id="nfeet"
+                   style="text-align: right;">
+            feet
+        </td>
+        <td>
+            <input type="text"  id="ninch"
+                   style="text-align: right;">
+            inches
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Waist:
+        </td>
+        <td>
+            <input type="text" id="wfeet" style="text-align: right;">
+            feet
+        </td>
+        <td>
+            <input type="text" id="winch" style="text-align: right;">
+            inches
+        </td>
+    </tr>
+    <tr id="hipRow" hidden>
+        <td>
+            Hip:
+        </td>
+        <td>
+            <input type="text" id="hfeet" style="text-align: right">
+            feet
+        </td>
+        <td>
+            <input type="text" id="hinch" style="text-align: right;">
+            inches
+        </td>
+    </tr>
+</table>
+<input type="button" value="Calculate!" onclick="calculateBodyFat()">
+</body>
+
+<script>
+    /**
+     * Created by joshua on 3/28/2015.
+     */
+    var hipRow = document.getElementById("hipRow");
+
+    $('#sex2').click(function(e) {
+        hipRow.hidden = false;
+    });
+
+    $('#sex1').click(function(e) {
+        hipRow.hidden = true;
+    });
+
+    function calculateBodyFat() {
+        var isMale = document.getElementById("sex1").checked;
+        var heightFeet = document.getElementById("hfeet").value;
+        var heightInches = document.getElementById("hinch").value;
+        var neckFeet = document.getElementById("nfeet").value;
+        var neckInches = document.getElementById("ninch").value;
+        var waistFeet = document.getElementById("wfeet").value;
+        var wasitInches = document.getElementById("winch").value;
+        var hipFeet = document.getElementById("hfeet").value;
+        var hipInches = document.getElementById("hinch").value;
+
+        if (isMale) {
+            console.log(495 / ( 1.0324 - (0.19077 * (Math.log(waistFeet - neckFeet) / Math.log(10)))
+            + (0.15456) * (Math.log(heightFeet) / Math.log(10))) - 450);
+        } else {
+            console.log(495 / ( 1.29579 - (0.35004 * (Math.log(waistFeet + hipFeet) / Math.log(10)) - (Math.log(neckFeet) / Math.log(10)))
+            + (0.22100) * (Math.log(heightFeet) / Math.log(10))) - 450);
+        }
+    }
+</script>
+</html>
