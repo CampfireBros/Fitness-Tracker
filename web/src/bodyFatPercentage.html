@@ -13,17 +13,6 @@
 </head>
 <body>
 <div id="navbar"></div>
-<div id="header">
-    <h1>Fitness Tracker</h1>
-</div>
-<style>
-    #header {
-        background-color: green;
-        color: white;
-        text-align: center;
-        padding: 6px;
-    }
-</style>
 <table>
     <tr>
         <td>
@@ -131,8 +120,8 @@
             console.log(495 / ( 1.0324 - (0.19077 * (Math.log(waistFeet - neckFeet) / Math.log(10)))
             + (0.15456) * (Math.log(heightFeet) / Math.log(10))) - 450);
         } else {
-            console.log(495 / ( 1.29579 - (0.35004 * (Math.log(waistFeet + hipFeet) / Math.log(10)) - (Math.log(neckFeet) / Math.log(10)))
-            + (0.22100) * (Math.log(heightFeet) / Math.log(10))) - 450);
+            console.log((495 / ( 1.29579 - (0.35004 * (Math.log(waistFeet + hipFeet) / Math.log(10)) - (Math.log(neckFeet) / Math.log(10)))
+            + (0.22100 * (Math.log(heightFeet) / Math.log(10))))) - 450);
         }
     }
 </script>
