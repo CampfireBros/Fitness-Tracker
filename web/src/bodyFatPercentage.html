@@ -132,15 +132,14 @@
             var height = Math.log(heightFeet) / Math.log(10);
             var sum = 1.0324 - (0.19077 * waistNeck) + (0.15456 * height);
             var bodyFat = (495 / sum) - 450;
-            console.log(bodyFat);
+            bodyFat = bodyFat.toFixed(1);
             alert(bodyFat);
-            //console.log(495 / ( 1.0324 - (0.19077 * waistNeck) + (0.15456) * (Math.log(heightFeet) / Math.log(10))) - 450);
         } else {
             var waistHipNeck = Math.log(parseInt(waistFeet) + parseInt(hipFeet) - neckFeet) / Math.log(10);
             var height = Math.log(heightFeet) / Math.log(10);
             var sum = 1.29579 - (0.35004 * waistHipNeck) + (0.22100 * height);
             var bodyFat = (495 / sum) - 450;
-            console.log(bodyFat);
+            bodyFat = bodyFat.toFixed(1);
             alert(bodyFat);
         }
     }
