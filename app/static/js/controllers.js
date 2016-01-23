@@ -7,21 +7,44 @@ function HomeCtrl($scope) {
 
 }
 
-function SignInCtrl($scope, $http) {
+function AccountCtrl($scope) {
+
+}
+
+function BodyBuildingCtrl($scope) {
+
+}
+
+function PowerliftingCtrl($scope) {
+
+}
+
+function CrossfitCtrl($scope) {
+
+}
+
+function SignInCtrl($scope, $http, $rootScope) {
     $scope.login = function() {
         $http({
             method: 'GET',
-            url: '/users/getUser/em/' + $scope.email + md5($scope.password)
+            url: '/users/getUser/pw/' + $scope.email + '/' + md5($scope.password)
         }).then(function successCallback(response) {
             console.log(response);
+            $rootScope.token = response["data"]["data"]["token"];
+            $rootScope.tokenTTL = response["data"]["data"]["tokenTTL"];
+            $rootScope.name = response["data"]["data"]["firstname"];
+            $rootScope.loggedIn = true;
         }, function errorCallback(response) {
             console.log(response);
+            $rootScope.loggedIn = false;
             alert('Signin Failed. Please try again!');
         });
     };
 }
 
-function SignUpCtrl($scope, $http) {
+function SignUpCtrl($scope, $http, $rootScope) {
+    $scope.gender = '';
+    $scope.style = '';
 
     $scope.addUser = function() {
         $http({
@@ -31,13 +54,28 @@ function SignUpCtrl($scope, $http) {
                 'firstname': $scope.firstname,
                 'lastname': $scope.lastname,
                 'email': $scope.email,
-                'password': md5($scope.password)
+                'password': md5($scope.password),
+                'style': $scope.style,
+                'gender': $scope.gender
             }
         }).then(function successCallback(response) {
             console.log(response);
+            $rootScope.token = response["data"]["data"]["token"];
+            $rootScope.tokenTTL = response["data"]["data"]["tokenTTL"];
+            $rootScope.name = response["data"]["data"]["firstname"];
+            $rootScope.loggedIn = true;
         }, function errorCallback(response) {
             console.log(response);
+            $rootScope.loggedIn = false;
             alert('Signup Failed. Please try again!');
         });
-    }
+    };
+
+    $scope.setGender = function(gender) {
+        $scope.gender = gender;
+    };
+
+    $scope.setStyle = function(style) {
+        $scope.style = style;
+    };
 }

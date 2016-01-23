@@ -8,7 +8,9 @@ class ResponseTools:
     @staticmethod
     def response(code, msg, objects=''):
         result = {'response': {'code': code, 'msg': msg}, 'data': objects}
-        return jsonify(result)
+        res = jsonify(result)
+        res.status_code = code
+        return res
 
     # creates a successful response with a 200
     @staticmethod

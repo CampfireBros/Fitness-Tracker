@@ -10,7 +10,7 @@ class User:
 
     # constructor to create a user
     def __init__(self, firstname, lastname, email, 
-                 password, token=None,
+                 password, style, gender, token=None,
                  tokenTTL=50, is_auth=False,
                  roles=[], o_id=None):
         self.o_id = o_id
@@ -18,6 +18,8 @@ class User:
         self.l_name = lastname
         self.email = email
         self.password = password
+        self.style = style
+        self.gender = gender
         if token is None:
             token = User.gen_token()
         else:
@@ -44,7 +46,9 @@ class User:
             'token': self.token,
             'tokenTTL': self.tokenTTL,
             'is_auth': self.is_auth,
-            'roles': self.roles
+            'roles': self.roles,
+            'style': self.style,
+            'gender': self.gender
         }
         return json_dict
 
@@ -162,6 +166,8 @@ class User:
                     mongo_user['lastname'],
                     mongo_user['email'],
                     mongo_user['password'],
+                    mongo_user['style'],
+                    mongo_user['gender'],
                     mongo_user['token'],
                     mongo_user['tokenTTL'],  # update time to live
                     mongo_user['is_auth'],
