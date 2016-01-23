@@ -22,12 +22,16 @@
         <div class="header clearfix">
             <nav>
                 <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="#/">Home</a></li>
-                    <li role="presentation"><a href="#/signin">Sign In</a></li>
-                    <li role="presentation"><a href="#/signup">Sign Up</a></li>
+                    <li role="presentation"><a href="#/bodybuilding">Body Building</a></li>
+                    <li role="presentation"><a href="#/crossfit">Crossfit</a></li>
+                    <li role="presentation"><a href="#/powerlifting">Powerlifting</a></li>
+                    <li role="presentation" ng-if="!$root.loggedIn"><a href="#/signin">Sign In</a></li>
+                    <li role="presentation" ng-if="!$root.loggedIn"><a href="#/signup">Sign Up</a></li>
+                    <li role="presentation" ng-if="$root.loggedIn"><a href="#/account">{{$root.name}}</a></li>
+
                 </ul>
             </nav>
-            <h3 class="text-muted">ExerciseDB</h3>
+            <h3 class="text-muted"><a href="#/">ExerciseDB</a></h3>
         </div>
 
          <div ng-view></div>

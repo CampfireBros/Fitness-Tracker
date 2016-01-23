@@ -23,8 +23,8 @@ def validate_unique(field, value, error, db, search):
     if db.find_one({search: value}):
         error(field, "value '%s' is not unique" % value)
         
-#validate_email = lambda field, value, error: validate_unique(field, value, error, usersdb, 'email')
-#validate_token = lambda field, value, error: validate_unique(field, value, error, usersdb, 'token')
+validate_email = lambda field, value, error: validate_unique(field, value, error, usersdb, 'email')
+validate_token = lambda field, value, error: validate_unique(field, value, error, usersdb, 'token')
 
 ###########################################################################
 # user schema
@@ -44,14 +44,24 @@ schema = {
     },
     'email': {
         'type': 'string',
-        'required': True
+        'required': True,
+        'validator': validate_email
     },
     'password': {
         'type': 'string'
     },
-    'token': {
+    'style': {
         'type': 'string',
         'required': True
+    },
+    'gender': {
+        'type': 'string',
+        'required': True
+    },
+    'token': {
+        'type': 'string',
+        'required': True,
+        'validator': validate_token
     },
     'tokenTTL': {
         'type': 'integer',
@@ -85,14 +95,13 @@ def add_user():
     email = User.fix_email_bug(email)
 
     password = User.gen_pw_hash(data['password'], data['email'])
-    user = User(data['firstname'], data['lastname'], email, password)
+    user = User(data['firstname'], data['lastname'], email, password, data['style'], data['gender'])
         
     data = user.json_dump(True)
     if schemaValidator.validate(data):
         o_id = usersdb.insert_one(data).inserted_id
         user.send_verify(o_id)
-        print data
-        return msg_tools.response_success(objects={'user': {'user_oid': str(user.email), 'token': user.token}})
+        return msg_tools.response_success(objects=user.json_dump())
     return msg_tools.response_fail(objects=schemaValidator.errors)
 
 
