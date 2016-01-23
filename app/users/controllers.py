@@ -23,8 +23,8 @@ def validate_unique(field, value, error, db, search):
     if db.find_one({search: value}):
         error(field, "value '%s' is not unique" % value)
         
-validate_email = lambda field, value, error: validate_unique(field, value, error, usersdb, 'email')
-validate_token = lambda field, value, error: validate_unique(field, value, error, usersdb, 'token')
+#validate_email = lambda field, value, error: validate_unique(field, value, error, usersdb, 'email')
+#validate_token = lambda field, value, error: validate_unique(field, value, error, usersdb, 'token')
 
 ###########################################################################
 # user schema
@@ -44,17 +44,14 @@ schema = {
     },
     'email': {
         'type': 'string',
-        'regex': '(^[a-zA-Z0-9_.+-]+@)(northeastern\.edu|neu\.edu|husky\.neu\.edu)',
-        'required': True,
-        'validator': validate_email
+        'required': True
     },
     'password': {
         'type': 'string'
     },
     'token': {
         'type': 'string',
-        'required': True,
-        'validator': validate_token
+        'required': True
     },
     'tokenTTL': {
         'type': 'integer',
@@ -94,6 +91,7 @@ def add_user():
     if schemaValidator.validate(data):
         o_id = usersdb.insert_one(data).inserted_id
         user.send_verify(o_id)
+        print data
         return msg_tools.response_success(objects={'user': {'user_oid': str(user.email), 'token': user.token}})
     return msg_tools.response_fail(objects=schemaValidator.errors)
 

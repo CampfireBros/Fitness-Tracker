@@ -27,7 +27,7 @@ CSRF_SESSION_KEY = "secret"
 SECRET_KEY = "secret"
 
 # MongoDB settings
-MONGODB_URL = "mongodb://admin:admin@ds049864.mongolab.com:49864/activitytracker"
+MONGODB_URL = "mongodb://admin:password@ds041571.mongolab.com:41571/exercisedb"
 
 # Salt for password hashing
 # WARNING changing this field will result in all passwords
@@ -37,3 +37,5 @@ SALT = 'd8f473b018b447e9ae6f74786540131d'
 
 # Flag if in testing mode (disables sending emails)
 TESTING = False
+
+MAIL_USERNAME = "exercisedb@exercisedb.com"

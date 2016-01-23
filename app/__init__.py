@@ -1,7 +1,7 @@
 # Import flask and template operators
 import app
 from flask import Flask
-from flask.ext.mail import Mail
+from flask.ext.sendmail import Mail
 
 from app.main.controllers import main as main
 from app.users.controllers import users as users

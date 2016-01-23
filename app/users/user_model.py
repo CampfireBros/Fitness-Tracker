@@ -1,5 +1,5 @@
 import uuid, hashlib, binascii, base64, app
-from app.database.db_connection import user_collection, skill_collection, dimension_collection
+from app.database.db_connection import user_collection
 from bson import ObjectId
 from flask.ext.sendmail import Message
 
@@ -165,6 +165,7 @@ class User:
                     mongo_user['token'],
                     mongo_user['tokenTTL'],  # update time to live
                     mongo_user['is_auth'],
+                    mongo_user['roles'],
                     mongo_user['_id'])
         # will add back in later
         if is_post:
