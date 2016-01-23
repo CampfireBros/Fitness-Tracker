@@ -8,6 +8,41 @@
         <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required=""  ng-model="email">
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" ng-model="password">
+        <div class="checkbox">
+            <div>
+            <label>
+            <input type="checkbox" ng-model="genderMale">
+                     Male
+            </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" ng-model="genderFemale">
+                        Female
+                </label>
+            </div>
+        </div>
 
+        <div class="checkbox">
+            <h2 class="checkbox-heading"> Select Training Style(s)</h2>
+            <div>
+                <label>
+                <input type="checkbox" ng-model="bodyBuilding">
+                         BodyBuilding
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" ng-model="crossFit">
+                         Crossfit
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" ng-model="powerLifting">
+                        Power Lifting
+                </label>
+            </div>
+            </div>
         <button class="btn btn-lg btn-primary btn-block" ng-click="addUser()">Sign up</button>
 </form>
