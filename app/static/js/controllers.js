@@ -11,11 +11,12 @@ function SignInCtrl($scope, $http) {
     $scope.login = function() {
         $http({
             method: 'GET',
-            url: '/users/getUser/pw/' + $scope.email + '/' + md5($scope.password)
+            url: '/users/getUser/em/' + $scope.email + md5($scope.password)
         }).then(function successCallback(response) {
             console.log(response);
         }, function errorCallback(response) {
             console.log(response);
+            alert('Signin Failed. Please try again!');
         });
     };
 }
@@ -32,6 +33,11 @@ function SignUpCtrl($scope, $http) {
                 'email': $scope.email,
                 'password': md5($scope.password)
             }
-        })
+        }).then(function successCallback(response) {
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log(response);
+            alert('Signup Failed. Please try again!');
+        });
     }
 }
