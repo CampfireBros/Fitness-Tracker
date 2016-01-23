@@ -10,4 +10,16 @@
           </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login()">Sign In</button>
+
+        <script type="text/ng-template" id="failedSignin.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Signin Failed!</h3>
+            </div>
+            <div class="modal-body">
+                The username/password combination was incorrect. Please try again!
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Okay!</button>
+            </div>
+        </script>
 </form>

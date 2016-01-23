@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare templates level module which depends on views, and components
-angular.module('myApp', ['ngRoute'])
+angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider
           .when('/', {

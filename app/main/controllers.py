@@ -14,7 +14,3 @@ def basic_pages():
     return make_response(open('app/templates/index.html').read())
 
 
-@main.route('/test')
-def test():
-    return "Hi"
-
