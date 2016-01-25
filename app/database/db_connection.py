@@ -7,4 +7,4 @@ import config
 client = MongoClient(config.MONGODB_URL)
 db = client.exercisedb
 user_collection = db.Users
-
+exercise_collection = db.Exercises

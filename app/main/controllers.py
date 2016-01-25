@@ -13,6 +13,8 @@ main = Blueprint('main', __name__)
 @main.route('/bodybuilding')
 @main.route('/powerlifting')
 @main.route('/crossfit')
+@main.route('/account')
+@main.route('/tracker')
 def basic_pages():
     return make_response(open('app/templates/index.html').read())
 
