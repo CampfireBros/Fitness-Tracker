@@ -58,14 +58,13 @@ schema = {
         'type': 'string',
         'required': True
     },
+    'log': {
+        'type': 'dict'
+    },
     'token': {
         'type': 'string',
         'required': True,
         'validator': validate_token
-    },
-    'tokenTTL': {
-        'type': 'integer',
-        'required': True
     },
     'is_auth': {
         'type': 'boolean',
@@ -114,6 +113,29 @@ def verify_user(o_id, token):
         return render_template("successfulAuthorization.html")
     else:
         return render_template("failedAuthorization.html")
+
+
+@users.route('/logExercise/<token>', methods=['POST'])
+def log_exercise(token):
+    user = User.get_user_if_auth(token=token)
+    if user is not None:
+        data = json.loads(request.data)
+        date = data["date"]
+        for exercise in data['exercises']:
+            muscle = exercise['muscle']
+            exer = exercise['exercise']
+            if muscle in user.log:
+                if exer in user.log[muscle]:
+                    user.log[muscle][exer].append({'date': date, 'sets': exercise['sets']})
+                else:
+                    user.log[muscle][exer] = [{'date': date, 'sets': exercise['sets']}]
+            else:
+                user.log[muscle] = {}
+                user.log[muscle][exer] = [{'date': date, 'sets': exercise['sets']}]
+        usersdb.update_one({"email": user.email}, {"$set": {"log": user.log}})
+        return msg_tools.response_success()
+    else:
+        return msg_tools.response_fail(code=401, objects={'error': 'permission denied'})
 
 
 ##

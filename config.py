@@ -27,7 +27,7 @@ CSRF_SESSION_KEY = "secret"
 SECRET_KEY = "secret"
 
 # MongoDB settings
-MONGODB_URL = "mongodb://admin:password@ds041571.mongolab.com:41571/exercisedb"
+MONGODB_URL = "mongodb://admin:admin@ds041571.mongolab.com:41571/exercisedb"
 
 # Salt for password hashing
 # WARNING changing this field will result in all passwords

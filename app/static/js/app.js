@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare templates level module which depends on views, and components
-angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
+angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider
           .when('/', {
@@ -36,8 +36,57 @@ angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
                 templateUrl: 'static/partials/account.html',
                 controller: AccountCtrl
           })
+            .when('/tracker', {
+                templateUrl: 'static/partials/tracker.html',
+                controller: TrackerCtrl
+          })
+            .when('/bodyfat', {
+                templateUrl: 'static/partials/bodyfat.html',
+                controller: BodyFatCtrl
+          })
           .otherwise({redirectTo: '/'});
     }])
-    .run(["$rootScope", function ($rootScope) {
+    .run(["$rootScope", "$cookies", "$location", "$http", function ($rootScope, $cookies, $location, $http) {
+        $rootScope.loggedIn = false;
+        $rootScope.trackerStyle = '';
+        $rootScope.styles = ['Body Building', 'Crossfit', 'Powerlifting'];
+        $rootScope.login = angular.fromJson($cookies.getObject('login'));
+        if(typeof $rootScope.login !== 'undefined') {
+            $rootScope.token = $rootScope.login.token;
+            $rootScope.name = $rootScope.login.name;
+            $rootScope.style = $rootScope.login.style;
+
+            $rootScope.loggedIn = true;
+        }
+
+        $rootScope.logout = function() {
             $rootScope.loggedIn = false;
+            $cookies.remove('login');
+            $location.path('/');
+        };
+
+        $rootScope.muscleExercises = {};
+
+        $http({
+            method: 'GET',
+            url: '/exercises/getMuscles'
+        }).then(function successCallback(response) {
+            $rootScope.muscles = response['data']['data'];
+            $rootScope.exercisesForEachMuscle();
+        }, function errorCallback(response) {
+        });
+
+        $rootScope.exercisesForEachMuscle = function() {
+            if (typeof $rootScope.muscles !== 'undefined') {
+                $rootScope.muscles.forEach(function (ele, index, arr) {
+                    $http({
+                        method: 'GET',
+                        url: '/exercises/exercisesForMuscle/' + ele
+                    }).then(function successCallback(response) {
+                        $rootScope.muscleExercises[ele] = response['data']['data'];
+                    }, function errorCallback(response) {
+                    });
+                });
+            }
+        }
     }]);

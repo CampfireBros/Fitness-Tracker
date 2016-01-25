@@ -10,8 +10,8 @@ class User:
 
     # constructor to create a user
     def __init__(self, firstname, lastname, email, 
-                 password, style, gender, token=None,
-                 tokenTTL=50, is_auth=False,
+                 password, style, gender, log={}, token=None,
+                 is_auth=False,
                  roles=[], o_id=None):
         self.o_id = o_id
         self.f_name = firstname 
@@ -20,12 +20,12 @@ class User:
         self.password = password
         self.style = style
         self.gender = gender
+        self.log = log
         if token is None:
             token = User.gen_token()
         else:
             token = token
         self.token = token
-        self.tokenTTL = tokenTTL  # this number is increased when account is authorized
         self.is_auth = is_auth
         if len(roles) == 0:
             self.roles = User.get_role(email)
@@ -43,8 +43,8 @@ class User:
             'lastname': self.l_name,
             'email': self.email,
             'password': pwd,
+            'log': self.log,
             'token': self.token,
-            'tokenTTL': self.tokenTTL,
             'is_auth': self.is_auth,
             'roles': self.roles,
             'style': self.style,
@@ -78,23 +78,6 @@ class User:
         if not app.app.config['TESTING']:
             app.mail.send(msg)
 
-    # decrements the TTL for the token
-    def update_ttl(self):
-        user_collection.result = user_collection.update_one(
-            {'_id': self.o_id},
-            {'$set': {'tokenTTL': (self.tokenTTL - 1)}})        
-    
-    # updates token ttl and produces a new token if this one expires
-    def update_token(self):
-        if self.tokenTTL is 0:
-            self.token = User.gen_token()
-            user_collection.result = user_collection.update_one(
-                {'_id': ObjectId(self.o_id)},
-                {
-                    '$set': {'token': self.token, 'tokenTTL': User.DEFAULT_TTL}  # increase as necessary
-                })
-        else:
-            self.update_ttl()
 
     # generates a unique token
     @staticmethod
@@ -123,7 +106,7 @@ class User:
             user_collection.result = user_collection.update_one(
                 {'_id': ObjectId(o_id)},
                 {
-                    '$set': {'is_auth': True, 'tokenTTL': User.DEFAULT_TTL}  # increase as nesseceary
+                    '$set': {'is_auth': True}  # increase as nesseceary
                 })
             return True
         else:
@@ -132,7 +115,7 @@ class User:
     # returns roles based on the email address
     @staticmethod
     def get_role(email):
-        if 'soccer62394' in email:
+        if 'soccer62394' in email or 'jtassone93' in email:
             return ['admin', 'user']
         else:
             return ['user']
@@ -152,7 +135,7 @@ class User:
 
     # gets a user from the database based on one of the input fields
     @staticmethod
-    def get_user_from_db(o_id=None, token=None, email=None, is_post=False):
+    def get_user_from_db(o_id=None, token=None, email=None):
         if token is not None:
             mongo_user = user_collection.find_one({'token': token})
         elif o_id is not None:
@@ -168,20 +151,17 @@ class User:
                     mongo_user['password'],
                     mongo_user['style'],
                     mongo_user['gender'],
+                    mongo_user['log'],
                     mongo_user['token'],
-                    mongo_user['tokenTTL'],  # update time to live
                     mongo_user['is_auth'],
                     mongo_user['roles'],
                     mongo_user['_id'])
-        # will add back in later
-        if is_post:
-            user.update_token()
         return user
 
     # returns a user if they are authorized for the role
     @staticmethod
     def get_user_check_auth(role, token, is_post=False):
-        user = User.get_user_from_db(token=token, is_post=is_post)
+        user = User.get_user_from_db(token=token)
         if user is not None:
             if role in user.roles:
                 return user
@@ -189,7 +169,7 @@ class User:
     
     # returns a user if they are authorized to get that user
     @staticmethod
-    def get_user_if_auth(o_id=None, token=None, email=None, password=None, is_post=False):
+    def get_user_if_auth(o_id=None, token=None, email=None, password=None):
         user = User.get_user_from_db(o_id, token, email)
         if user is not None:
             if token is not None:
