@@ -115,6 +115,7 @@ class User:
     # returns roles based on the email address
     @staticmethod
     def get_role(email):
+        # TODO use full email
         if 'soccer62394' in email or 'jtassone93' in email:
             return ['admin', 'user']
         else:

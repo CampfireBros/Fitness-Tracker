@@ -18,7 +18,7 @@ def load_exercises():
             for line in reader:
                 name = line[0]
                 primary = line[1]
-                secondary = line[2].split()
+                secondary = line[2].split(":")
                 equipment = line[3]
                 mechanics = line[4]
 

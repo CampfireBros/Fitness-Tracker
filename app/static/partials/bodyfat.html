@@ -28,7 +28,7 @@
                     </td>
                     <td>
                         <input type="text"  id="hfeet"
-                               style="text-align: right;">
+                               style="text-align: right;" ng-model="heightFeet">
                         feet
                     </td>
                     <td>
@@ -79,7 +79,7 @@
                     </td>
                 </tr>
             </table>
-            <input type="button" value="Calculate!"  class="btn btn-default" onclick="calculateBodyFat()">
+            <input type="button" value="Calculate!"  class="btn btn-default" ng-click="calculateBodyFat()">
         </div>
     </div>
 </div>

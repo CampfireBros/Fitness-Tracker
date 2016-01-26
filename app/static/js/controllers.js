@@ -25,9 +25,9 @@ function BodyFatCtrl($scope) {
     $('#sex1').click(function(e) {
         hipRow.hidden = true;
     });
-    function calculateBodyFat() {
+    $scope.calculateBodyFat = function() {
         var isMale = document.getElementById("sex1").checked;
-        var heightFeet = document.getElementById("hfeet").value;
+        var heightFeet = $scope.heightFeet;
         var heightInches = document.getElementById("hinch").value;
         var neckFeet = document.getElementById("nfeet").value;
         var neckInches = document.getElementById("ninch").value;
@@ -82,8 +82,6 @@ function CrossfitCtrl($scope, $rootScope, $location) {
 }
 
 function TrackerCtrl($scope, $rootScope, $location, $http) {
-    $scope.bicep = ['Curl', 'Bar Curl'];
-    $scope.tricep = ['Rope Extension', 'Overhead Rope'];
     $scope.style = $rootScope.trackerStyle;
     $scope.parent = {date:new Date()};
 
@@ -150,11 +148,10 @@ function TrackerCtrl($scope, $rootScope, $location, $http) {
                 'exercises': $scope.training
             }
         }).then(function successCallback(response) {
-            console.log(response);
+            $location.path($rootScope.previousPage);
         }, function errorCallback(response) {
-            console.log(response);
+            alert("Failed to submit workout, please try again!")
         });
-        //$location.path($rootScope.previousPage);
     };
 }
 
