@@ -64,7 +64,7 @@ function BodyBuildingCtrl($scope, $rootScope, $location, $http) {
         $location.path('tracker');
     };
 
-    $scope.x2js = new X2JS();
+    /*$scope.x2js = new X2JS();
     $scope.redditUrl = 'https://www.reddit.com/r/bodybuilding/.rss';
 
     $scope.retrieveRss = function(){
@@ -78,7 +78,7 @@ function BodyBuildingCtrl($scope, $rootScope, $location, $http) {
         }, function errorCallback(response) {
             console.log(response);
         });
-    }
+    }*/
 }
 
 function PowerliftingCtrl($scope, $rootScope, $location) {
