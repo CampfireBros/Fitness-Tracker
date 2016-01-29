@@ -47,6 +47,10 @@ angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
           .otherwise({redirectTo: '/'});
     }])
     .run(["$rootScope", "$cookies", "$location", "$http", function ($rootScope, $cookies, $location, $http) {
+        $rootScope.$on('$routeChangeSuccess', function(){
+            ga('send', 'pageview', $location.path());
+        });
+
         $rootScope.loggedIn = false;
         $rootScope.trackerStyle = '';
         $rootScope.styles = ['Body Building', 'Crossfit', 'Powerlifting'];
