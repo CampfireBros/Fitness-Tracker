@@ -1,7 +1,8 @@
 import uuid, hashlib, binascii, base64, app
 from app.database.db_connection import user_collection
 from bson import ObjectId
-from flask.ext.sendmail import Message
+from flask.ext.mail import Message
+
 
 # user class for all users in the system
 class User:
@@ -72,7 +73,7 @@ class User:
                                                                    app.app.config['PORT'],
                                                                    o_id, hash_token)
         msg = Message("Verfy with ExerciseDB",
-                      sender=('ExerciseDB', app.app.config['MAIL_USERNAME']),
+                      sender=("ExerciseDb", app.app.config['MAIL_USERNAME']),
                       recipients=[self.email])
         msg.html = html_body + msg_body + rest
         if not app.app.config['TESTING']:

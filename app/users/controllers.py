@@ -1,9 +1,11 @@
 from app.database.db_connection import user_collection as usersdb
 import json
-from flask import Blueprint, request, render_template
+import app
+from flask import Blueprint, request, render_template, make_response
 from app.users.user_model import User
 from app.utils.validators import MyValidator
 from app.utils.msg_tools import ResponseTools as msg_tools
+from flask.ext.mail import Message
 
 ###########################################################################
 # blueprint for flask
@@ -110,9 +112,9 @@ def add_user():
 @users.route('/verifyUser/<o_id>/<token>', methods=['GET'])
 def verify_user(o_id, token):
     if User.authorize(o_id, token):
-        return render_template("successfulAuthorization.html")
+        return make_response(open('app/templates/successfulAuthorization.html').read())
     else:
-        return render_template("failedAuthorization.html")
+        return make_response(open('app/templates/failedAuthorization.html').read())
 
 
 @users.route('/logExercise/<token>', methods=['POST'])
@@ -133,6 +135,13 @@ def log_exercise(token):
                 user.log[muscle] = {}
                 user.log[muscle][exer] = [{'date': date, 'sets': exercise['sets']}]
         usersdb.update_one({"email": user.email}, {"$set": {"log": user.log}})
+
+        msg = Message("Your exercise log",
+                      sender=("ExerciseDb", app.app.config['MAIL_USERNAME']),
+                      recipients=[user.email])
+        msg.html = request.data
+        if not app.app.config['TESTING']:
+            app.mail.send(msg)
         return msg_tools.response_success()
     else:
         return msg_tools.response_fail(code=401, objects={'error': 'permission denied'})
