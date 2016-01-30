@@ -38,4 +38,10 @@ SALT = 'd8f473b018b447e9ae6f74786540131d'
 # Flag if in testing mode (disables sending emails)
 TESTING = False
 
-MAIL_USERNAME = "exercisedb@exercisedb.com"
+#MAIL_USERNAME = "exercisedb@exercisedb.com"
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 587
+MAIL_USE_TLS = True
+MAIL_USE_SSL = False
+MAIL_USERNAME = 'theexercisedb@gmail.com'
+MAIL_PASSWORD = 'exdb2016'
