@@ -57,12 +57,28 @@ function AccountCtrl($scope) {
 
 }
 
-function BodyBuildingCtrl($scope, $rootScope, $location) {
+function BodyBuildingCtrl($scope, $rootScope, $location, $http) {
     $scope.goToTracker = function() {
         $rootScope.trackerStyle = 'Body Building';
         $rootScope.previousPage = 'bodybuilding';
         $location.path('tracker');
-    }
+    };
+
+    /*$scope.x2js = new X2JS();
+    $scope.redditUrl = 'https://www.reddit.com/r/bodybuilding/.rss';
+
+    $scope.retrieveRss = function(){
+        $http({
+            method: 'GET',
+            url: $scope.redditUrl
+        }).then(function successCallback(response) {
+            console.log(response);
+            $scope.feed = $scope.x2js.xml_str2json(response.data);
+            console.log($scope.feed);
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+    }*/
 }
 
 function PowerliftingCtrl($scope, $rootScope, $location) {
