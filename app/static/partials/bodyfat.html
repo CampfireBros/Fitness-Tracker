@@ -2,37 +2,27 @@
     <div class="jumbotron" style="text-align: center;">
         <h1>Body Fat Percentage Calculator</h1>
     </div>
+    <div class="btn-group" uib-dropdown>
+            <button id="btn-append-to-single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
+              <span ng-if="!gender">Gender</span>
+                <span ng-if="gender">{{gender}}</span>
+                <span class="caret"></span>
+
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
+              <li role="menuitem"><a ng-click="setGender('Male')">Male</a></li>
+              <li role="menuitem"><a ng-click="setGender('Female')">Female</a></li>
+            </ul>
+        </div>
     <div class="row">
         <div class="col-md-offset-3 col-md-8">
             <table>
                 <tr>
                     <td>
-                        Gender:
-                    </td>
-                    <td>
-                        <label for="sex1">
-                            <input type="radio" name="genderType" id="sex1" checked>
-                            Male
-                        </label>
-                    </td>
-                    <td>
-                        <label for="sex2">
-                            <input type="radio" name="genderType" id="sex2">
-                            Female
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
                         Height:
                     </td>
                     <td>
-                        <input type="text"  id="hfeet"
-                               style="text-align: right;" ng-model="heightFeet">
-                        feet
-                    </td>
-                    <td>
-                        <input type="text" id="hinch"
+                        <input type="text" id="hinch" ng-model="hInch"
                                style="text-align: right;">
                         inches
                     </td>
@@ -42,12 +32,7 @@
                         Neck:
                     </td>
                     <td>
-                        <input type="text" id="nfeet"
-                               style="text-align: right;">
-                        feet
-                    </td>
-                    <td>
-                        <input type="text"  id="ninch"
+                        <input type="text"  id="ninch" ng-model="nInch"
                                style="text-align: right;">
                         inches
                     </td>
@@ -57,24 +42,16 @@
                         Waist:
                     </td>
                     <td>
-                        <input type="text" id="wfeet" style="text-align: right;">
-                        feet
-                    </td>
-                    <td>
-                        <input type="text" id="winch" style="text-align: right;">
+                        <input type="text" id="winch" ng-model="wInch" style="text-align: right;">
                         inches
                     </td>
                 </tr>
-                <tr id="hipRow" hidden>
+                <tr id="hipRow"  ng-show="gender === 'Female'">
                     <td>
                         Hip:
                     </td>
                     <td>
-                        <input type="text" id="hipfeet" style="text-align: right">
-                        feet
-                    </td>
-                    <td>
-                        <input type="text" id="hipinch" style="text-align: right;">
+                        <input type="text" id="hipinch" ng-model="hipInch" style="text-align: right;">
                         inches
                     </td>
                 </tr>
