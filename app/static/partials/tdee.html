@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="jumbotron" style="text-align: center;">
+        <h1>TDEE Calculator</h1>
+    </div>
+    Gender:
+   <div class="btn-group" uib-dropdown>
+            <button id="btn-append-to-single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
+              <span ng-if="!gender">Gender</span>
+                <span ng-if="gender">{{gender}}</span>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
+              <li role="menuitem"><a ng-click="setGender('Male')">Male</a></li>
+              <li role="menuitem"><a ng-click="setGender('Female')">Female</a></li>
+            </ul>
+        </div>
+    Activity Level:
+    <div class="btn-group" uib-dropdown>
+         <button id="btn-append-to-single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
+              <span ng-if="!activityLevel">Activity Level</span>
+                <span ng-if="activityLevel">{{activityLevel}}</span>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
+                 <li role="menuitem"><a ng-click="setActivityLevel('Sedentary')">Sedentary (Office Job)</a></li>
+                          <li role="menuitem"><a ng-click="setActivityLevel('Light')">Light Exercise (1-2 Days/Week)</a>
+                          <li role="menuitem"><a ng-click="setActivityLevel('Moderate')">Moderate Exercise (3-5 Days/Week)</a></li>
+                          <li role="menuitem"><a ng-click="setActivityLevel('Heavy')"> Heavy Exercise (6-7 Days/Week)</a></li>
+                          <li role="menuitem"><a ng-click="setActivityLevel('Athlete')">Athlete (Twice Per Day)</a></li>
+            </ul>
+    </div>
+            <div class="row">
+                 <div class="col-md-offset-3 col-md-8">
+                    <table>
+                         <tr>
+                             <td>
+                                 Age:
+                             </td>
+                             <td>
+                                <input type="text" id="age" ng-model="age"
+                                 style="text-align: right;">
+                                    Years
+                            </td>
+                         </tr>
+                        <tr>
+                             <td>
+                                 Weight:
+                             </td>
+                            <td>
+                                 <input type="text"  id="weight" ng-model="weight"
+                                 style="text-align: right;">
+                                 lbs
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Height:
+                             </td>
+                            <td>
+                                 <input type="text" id="hinch" ng-model="hinch" style="text-align: right;">
+                                 inches
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="button" value="Calculate!"  class="btn btn-default" ng-click="calculateTdee()">
+                </div>
+            </div>
+</div>
