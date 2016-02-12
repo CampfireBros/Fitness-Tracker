@@ -57,28 +57,31 @@ function AccountCtrl($scope) {
 
 }
 
-function BodyBuildingCtrl($scope, $rootScope, $location, $http) {
+function BodyBuildingCtrl($scope, $rootScope, $location, $http, $sce) {
     $scope.goToTracker = function() {
         $rootScope.trackerStyle = 'Body Building';
         $rootScope.previousPage = 'bodybuilding';
         $location.path('tracker');
     };
 
-    /*$scope.x2js = new X2JS();
-    $scope.redditUrl = 'https://www.reddit.com/r/bodybuilding/.rss';
+
+    $scope.rssHtml = '';
 
     $scope.retrieveRss = function(){
         $http({
             method: 'GET',
-            url: $scope.redditUrl
+            url: '/rss/bodybuilding'
         }).then(function successCallback(response) {
             console.log(response);
-            $scope.feed = $scope.x2js.xml_str2json(response.data);
-            console.log($scope.feed);
+            $scope.rssHtml = response.data;
         }, function errorCallback(response) {
             console.log(response);
         });
-    }*/
+    };
+
+    $scope.trust = function(string) {
+        return $sce.trustAsHtml(string);
+    }
 }
 
 function PowerliftingCtrl($scope, $rootScope, $location) {
@@ -138,12 +141,25 @@ function TrackerCtrl($scope, $rootScope, $location, $http) {
         $scope.training[index]['sets'].push({'reps':'', 'weight':''});
     };
 
+    $scope.addDuplicateSet = function(index) {
+        $scope.training[index]['sets'].push($scope.training[index]['sets'][$scope.training[index]['sets'].length-1]);
+    };
+
+    $scope.deleteSet = function(index) {
+        $scope.training[index]['sets'].pop();
+    };
+
+    $scope.deleteExercise = function() {
+        $scope.training.pop();
+    };
+
     $scope.addExercise = function() {
         $scope.training.push(
             {
                 'index': $scope.currentIndex + 1,
                 'muscle': '',
                 'exercise': '',
+                'notes': '',
                 'sets' : [
                     {
                         'reps': '',

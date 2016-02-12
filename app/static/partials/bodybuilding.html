@@ -2,4 +2,14 @@
     <p><a class="btn btn-lg btn-success" ng-click="goToTracker()" role="button">Track your exercises!</a></p>
     <p><a class="btn btn-lg btn-success" ng-click="retrieveRss()" role="button">Load Feed!</a></p>
 
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <div ng-repeat="entry in rssHtml">
+                <p  ng-bind-html="trust(entry.content)"></p>
+                <h6>{{entry.user}}</h6>
+                <br><br><br>
+            </div>
+        </div>
+    </div>
 </div>
