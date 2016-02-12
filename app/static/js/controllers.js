@@ -14,43 +14,76 @@ function HomeCtrl($scope, $rootScope, $location) {
 
 function BodyFatCtrl($scope) {
 
-    //TODO redo this into angular
-        /**
-     * Created by joshua on 3/28/2015.
-     */
-    var hipRow = document.getElementById("hipRow");
-    $('#sex2').click(function(e) {
-        hipRow.hidden = false;
-    });
-    $('#sex1').click(function(e) {
-        hipRow.hidden = true;
-    });
+    $scope.gender = '';
+
+     $scope.setGender = function(gender) {
+        $scope.gender = gender;
+    };
+
     $scope.calculateBodyFat = function() {
-        var isMale = document.getElementById("sex1").checked;
-        var heightFeet = $scope.heightFeet;
-        var heightInches = document.getElementById("hinch").value;
-        var neckFeet = document.getElementById("nfeet").value;
-        var neckInches = document.getElementById("ninch").value;
-        var waistFeet = document.getElementById("wfeet").value;
-        var waistInches = document.getElementById("winch").value;
-        var hipFeet = document.getElementById("hipfeet").value;
-        var hipInches = document.getElementById("hipinch").value;
-        if (isMale) {
-            var waistNeck = Math.log(waistFeet - neckFeet) / Math.log(10);
-            var height = Math.log(heightFeet) / Math.log(10);
-            var sum = 1.0324 - (0.19077 * waistNeck) + (0.15456 * height);
-            var bodyFat = (495 / sum) - 450;
+        if ($scope.gender === 'Male') {
+            var bodyFat = 495 / (1.0324 - .19077 * $scope.logBase10(($scope.wInch * 2.54) - ($scope.nInch * 2.54))
+            + .15456 * $scope.logBase10($scope.hInch * 2.54)) - 450;
             bodyFat = bodyFat.toFixed(1);
             alert(bodyFat);
         } else {
-            var waistHipNeck = Math.log(parseInt(waistFeet) + parseInt(hipFeet) - neckFeet) / Math.log(10);
-            var height = Math.log(heightFeet) / Math.log(10);
-            var sum = 1.29579 - (0.35004 * waistHipNeck) + (0.22100 * height);
-            var bodyFat = (495 / sum) - 450;
+           var bodyFat = 495 / (1.29579 - .35004 * $scope.logBase10(($scope.wInch * 2.54) + ($scope.hipInch * 2.54) - ($scope.nInch * 2.54)) + .22100 *
+            $scope.logBase10($scope.hInch * 2.54)) - 450;
             bodyFat = bodyFat.toFixed(1);
             alert(bodyFat);
         }
+    };
+
+    $scope.logBase10 = function(x) {
+        return Math.log(x) / Math.log(10);
     }
+}
+
+function TdeeCtrl($scope) {
+
+     $scope.gender = '';
+
+     $scope.setGender = function(gender) {
+        $scope.gender = gender;
+    };
+
+    $scope.activityLevel = '';
+
+    $scope.setActivityLevel = function(activityLevel) {
+        $scope.activityLevel = activityLevel;
+    };
+
+    $scope.calculateTdee = function() {
+        var bmr, tdee;
+        if ($scope.gender === 'Male') {
+             bmr = 66 + (13.7 * ($scope.weight * 0.453592)) + (5 * ($scope.hinch * 2.54)) - (6.8 * $scope.age);
+             bmr = bmr.toFixed(1);
+        } else {
+            bmr = 655 + (9.6 * $scope.weight * 0.453592) + (1.8 * ($scope.hinch * 2.54)) - (6.8 * $scope.age);
+            bmr = bmr.toFixed(1);
+        }
+        switch ($scope.activityLevel) {
+            case 'Sedentary':
+                tdee = bmr * 1.2;
+                break;
+            case 'Light':
+                tdee = bmr * 1.375;
+                break;
+            case 'Moderate':
+                tdee = bmr * 1.55;
+                break;
+            case 'Heavy':
+                tdee = bmr * 1.725;
+                break;
+            case 'Athlete':
+                tdee = bmr * 1.9;
+                break;
+            default:
+                alert("Please select an activity level!");
+        }
+        tdee = tdee.toFixed(1);
+        alert(tdee);
+    };
 }
 
 function AccountCtrl($scope) {

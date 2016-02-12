@@ -14,6 +14,8 @@ main = Blueprint('main', __name__)
 @main.route('/powerlifting')
 @main.route('/crossfit')
 @main.route('/account')
+@main.route('/tdee')
+@main.route('/bodyfat')
 @main.route('/tracker')
 def basic_pages():
     return make_response(open('app/templates/index.html').read())
