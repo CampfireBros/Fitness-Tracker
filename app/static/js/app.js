@@ -44,6 +44,10 @@ angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
                 templateUrl: 'static/partials/bodyfat.html',
                 controller: BodyFatCtrl
           })
+            .when('/tdee', {
+                templateUrl: 'static/partials/tdee.html',
+                controller: TdeeCtrl
+          })
           .otherwise({redirectTo: '/'});
     }])
     .run(["$rootScope", "$cookies", "$location", "$http", function ($rootScope, $cookies, $location, $http) {
