@@ -100,7 +100,7 @@ function BodyBuildingCtrl($scope, $rootScope, $location, $http, $sce) {
 
     $scope.rssHtml = '';
 
-    $scope.retrieveRss = function(){
+    $scope.initBodybuilding = function(){
         $http({
             method: 'GET',
             url: '/rss/bodybuilding'
@@ -114,23 +114,65 @@ function BodyBuildingCtrl($scope, $rootScope, $location, $http, $sce) {
 
     $scope.trust = function(string) {
         return $sce.trustAsHtml(string);
-    }
+    };
+
+    $scope.initBodybuilding();
 }
 
-function PowerliftingCtrl($scope, $rootScope, $location) {
+function PowerliftingCtrl($scope, $rootScope, $location, $http, $sce) {
     $scope.goToTracker = function() {
         $rootScope.trackerStyle = 'Powerlifting';
         $rootScope.previousPage = 'powerlifting';
         $location.path('tracker');
-    }
+    };
+
+    $scope.rssHtml = '';
+
+    $scope.initPowerlifting = function(){
+        $http({
+            method: 'GET',
+            url: '/rss/powerlifting'
+        }).then(function successCallback(response) {
+            console.log(response);
+            $scope.rssHtml = response.data;
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+    };
+
+    $scope.trust = function(string) {
+        return $sce.trustAsHtml(string);
+    };
+
+    $scope.initPowerlifting();
 }
 
-function CrossfitCtrl($scope, $rootScope, $location) {
+function CrossfitCtrl($scope, $rootScope, $location, $http, $sce) {
     $scope.goToTracker = function() {
         $rootScope.trackerStyle = 'Crossfit';
         $rootScope.previousPage = 'crossfit';
         $location.path('tracker');
-    }
+    };
+
+    $scope.rssHtml = '';
+
+    $scope.initCrossfit = function(){
+        $http({
+            method: 'GET',
+            url: '/rss/crossfit'
+        }).then(function successCallback(response) {
+            console.log(response);
+            $scope.rssHtml = response.data;
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+    };
+
+    $scope.trust = function(string) {
+        return $sce.trustAsHtml(string);
+    };
+
+    $scope.initCrossfit();
 }
 
 function TrackerCtrl($scope, $rootScope, $location, $http) {
