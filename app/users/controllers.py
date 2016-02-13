@@ -128,12 +128,12 @@ def log_exercise(token):
             exer = exercise['exercise']
             if muscle in user.log:
                 if exer in user.log[muscle]:
-                    user.log[muscle][exer].append({'date': date, 'sets': exercise['sets']})
+                    user.log[muscle][exer].append({'date': date, 'sets': exercise['sets'], 'notes': exercise['notes']})
                 else:
-                    user.log[muscle][exer] = [{'date': date, 'sets': exercise['sets']}]
+                    user.log[muscle][exer] = [{'date': date, 'sets': exercise['sets'], 'notes': exercise['notes']}]
             else:
                 user.log[muscle] = {}
-                user.log[muscle][exer] = [{'date': date, 'sets': exercise['sets']}]
+                user.log[muscle][exer] = [{'date': date, 'sets': exercise['sets'], 'notes': exercise['notes']}]
         usersdb.update_one({"email": user.email}, {"$set": {"log": user.log}})
 
         msg = Message("Your exercise log",
@@ -159,3 +159,13 @@ def get_user(email, password = None, auth_token = None):
         return msg_tools.response_success(objects=user.json_dump())
     else:
         return msg_tools.response_fail(code=401, objects={'error': 'permission denied'})
+
+
+@users.route('/exerciseLog/<muscle>/<exercise>/<auth_token>')
+def get_log(muscle, exercise, auth_token):
+    user = User.get_user_if_auth(token=auth_token)
+    if user is not None:
+        if muscle in user.log and exercise in user.log[muscle] and len(user.log[muscle][exercise]) > 0:
+            exercise_logs = user.log[muscle][exercise]
+            return msg_tools.response_success(objects=json.dumps(exercise_logs))
+    return msg_tools.response_fail(code=401, objects={'error': 'permission denied'})

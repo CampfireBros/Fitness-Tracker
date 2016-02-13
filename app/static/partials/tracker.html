@@ -41,8 +41,23 @@
               <li role="menuitem" ng-repeat="exercise in muscleExercises"><a ng-click="setExercise(exercise.exercise, activity.index)">{{exercise.exercise}}</a></li>
             </ul>
         </div>
+        <div ng-if="activity.previous.date">
+            <div>
+                Previous time completing this exericse was {{activity.previous.date}}.
+            </div>
+            <div>
+                You did the following sets:
+                <ul>
+                    <li  ng-repeat="set in activity.previous.sets">Reps: {{set.reps}} and Weight: {{set.weight}}</li>
+                </ul>
+            </div>
+            <div>
+                Notes: {{activity.previous.notes}}
+            </div>
+        </div>
         <label for="reps" class="sr-only">Notes</label>
-        <input type="text" id="notes" class="form-control" placeholder="Notes" required="" autofocus="" ng-model="set.notes">
+        <input type="text" id="notes" class="form-control" placeholder="Notes" required="" autofocus="" ng-model="activity.notes">
+        <br>
         <span ng-repeat="set in activity.sets track by $index">
             <label for="reps" class="sr-only">Reps</label>
             <input type="text" id="reps" class="form-control" placeholder="Reps" required="" autofocus="" ng-model="set.reps">

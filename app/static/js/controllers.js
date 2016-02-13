@@ -191,6 +191,11 @@ function TrackerCtrl($scope, $rootScope, $location, $http) {
             'index': 0,
             'muscle': '',
             'exercise': '',
+            'notes': '',
+            'previous' : {
+                'date': '',
+                'sets': []
+            },
             'sets' : [
                 {
                     'reps': '',
@@ -210,6 +215,15 @@ function TrackerCtrl($scope, $rootScope, $location, $http) {
 
     $scope.setExercise = function(exercise, index) {
         $scope.training[index]['exercise'] = exercise;
+        $http({
+            method: 'GET',
+            url: '/users/exerciseLog/' + $scope.training[index]['muscle'] + '/' + exercise + '/' + $rootScope.token
+        }).then(function successCallback(response) {
+            var res = angular.fromJson(response.data.data);
+            $scope.training[index]["previous"] = res[res.length - 1];
+        }, function errorCallback(response) {
+            console.log(response);
+        });
     };
 
     $scope.addSet = function(index) {
@@ -226,6 +240,7 @@ function TrackerCtrl($scope, $rootScope, $location, $http) {
 
     $scope.deleteExercise = function() {
         $scope.training.pop();
+        $scope.currentIndex--;
     };
 
     $scope.addExercise = function() {

@@ -13,6 +13,8 @@ powerlifting_feed = []
 crossfit_feed = []
 
 
+# TODO need to refresh feeds
+
 def get_bodybuilding():
     global bodybuilding_feed
     headers = {"user-agent" : "python:com.campfirebros.exercisedb:v1..0.0"}
