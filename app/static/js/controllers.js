@@ -90,44 +90,89 @@ function AccountCtrl($scope) {
 
 }
 
-function BodyBuildingCtrl($scope, $rootScope, $location, $http) {
+function BodyBuildingCtrl($scope, $rootScope, $location, $http, $sce) {
     $scope.goToTracker = function() {
         $rootScope.trackerStyle = 'Body Building';
         $rootScope.previousPage = 'bodybuilding';
         $location.path('tracker');
     };
 
-    /*$scope.x2js = new X2JS();
-    $scope.redditUrl = 'https://www.reddit.com/r/bodybuilding/.rss';
 
-    $scope.retrieveRss = function(){
+    $scope.rssHtml = '';
+
+    $scope.initBodybuilding = function(){
         $http({
             method: 'GET',
-            url: $scope.redditUrl
+            url: '/rss/bodybuilding'
         }).then(function successCallback(response) {
             console.log(response);
-            $scope.feed = $scope.x2js.xml_str2json(response.data);
-            console.log($scope.feed);
+            $scope.rssHtml = response.data;
         }, function errorCallback(response) {
             console.log(response);
         });
-    }*/
+    };
+
+    $scope.trust = function(string) {
+        return $sce.trustAsHtml(string);
+    };
+
+    $scope.initBodybuilding();
 }
 
-function PowerliftingCtrl($scope, $rootScope, $location) {
+function PowerliftingCtrl($scope, $rootScope, $location, $http, $sce) {
     $scope.goToTracker = function() {
         $rootScope.trackerStyle = 'Powerlifting';
         $rootScope.previousPage = 'powerlifting';
         $location.path('tracker');
-    }
+    };
+
+    $scope.rssHtml = '';
+
+    $scope.initPowerlifting = function(){
+        $http({
+            method: 'GET',
+            url: '/rss/powerlifting'
+        }).then(function successCallback(response) {
+            console.log(response);
+            $scope.rssHtml = response.data;
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+    };
+
+    $scope.trust = function(string) {
+        return $sce.trustAsHtml(string);
+    };
+
+    $scope.initPowerlifting();
 }
 
-function CrossfitCtrl($scope, $rootScope, $location) {
+function CrossfitCtrl($scope, $rootScope, $location, $http, $sce) {
     $scope.goToTracker = function() {
         $rootScope.trackerStyle = 'Crossfit';
         $rootScope.previousPage = 'crossfit';
         $location.path('tracker');
-    }
+    };
+
+    $scope.rssHtml = '';
+
+    $scope.initCrossfit = function(){
+        $http({
+            method: 'GET',
+            url: '/rss/crossfit'
+        }).then(function successCallback(response) {
+            console.log(response);
+            $scope.rssHtml = response.data;
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+    };
+
+    $scope.trust = function(string) {
+        return $sce.trustAsHtml(string);
+    };
+
+    $scope.initCrossfit();
 }
 
 function TrackerCtrl($scope, $rootScope, $location, $http) {
@@ -146,6 +191,11 @@ function TrackerCtrl($scope, $rootScope, $location, $http) {
             'index': 0,
             'muscle': '',
             'exercise': '',
+            'notes': '',
+            'previous' : {
+                'date': '',
+                'sets': []
+            },
             'sets' : [
                 {
                     'reps': '',
@@ -165,10 +215,32 @@ function TrackerCtrl($scope, $rootScope, $location, $http) {
 
     $scope.setExercise = function(exercise, index) {
         $scope.training[index]['exercise'] = exercise;
+        $http({
+            method: 'GET',
+            url: '/users/exerciseLog/' + $scope.training[index]['muscle'] + '/' + exercise + '/' + $rootScope.token
+        }).then(function successCallback(response) {
+            var res = angular.fromJson(response.data.data);
+            $scope.training[index]["previous"] = res[res.length - 1];
+        }, function errorCallback(response) {
+            console.log(response);
+        });
     };
 
     $scope.addSet = function(index) {
         $scope.training[index]['sets'].push({'reps':'', 'weight':''});
+    };
+
+    $scope.addDuplicateSet = function(index) {
+        $scope.training[index]['sets'].push($scope.training[index]['sets'][$scope.training[index]['sets'].length-1]);
+    };
+
+    $scope.deleteSet = function(index) {
+        $scope.training[index]['sets'].pop();
+    };
+
+    $scope.deleteExercise = function() {
+        $scope.training.pop();
+        $scope.currentIndex--;
     };
 
     $scope.addExercise = function() {
@@ -177,6 +249,7 @@ function TrackerCtrl($scope, $rootScope, $location, $http) {
                 'index': $scope.currentIndex + 1,
                 'muscle': '',
                 'exercise': '',
+                'notes': '',
                 'sets' : [
                     {
                         'reps': '',

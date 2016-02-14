@@ -1,4 +1,5 @@
 <div>
+    <h1>DO NOT CHANGE TABS ON MOBILE, CHROME MAY REFRESH TAB AND ERASE ALL DATA</h1>
     Selected Style:
     <div class="btn-group" uib-dropdown>
         <button id="style" type="button" class="btn btn-primary" uib-dropdown-toggle>
@@ -40,16 +41,35 @@
               <li role="menuitem" ng-repeat="exercise in muscleExercises"><a ng-click="setExercise(exercise.exercise, activity.index)">{{exercise.exercise}}</a></li>
             </ul>
         </div>
-        <span ng-repeat="set in activity.sets">
+        <div ng-if="activity.previous.date">
+            <div>
+                Previous time completing this exericse was {{activity.previous.date}}.
+            </div>
+            <div>
+                You did the following sets:
+                <ul>
+                    <li  ng-repeat="set in activity.previous.sets">Reps: {{set.reps}} and Weight: {{set.weight}}</li>
+                </ul>
+            </div>
+            <div>
+                Notes: {{activity.previous.notes}}
+            </div>
+        </div>
+        <label for="reps" class="sr-only">Notes</label>
+        <input type="text" id="notes" class="form-control" placeholder="Notes" required="" autofocus="" ng-model="activity.notes">
+        <br>
+        <span ng-repeat="set in activity.sets track by $index">
             <label for="reps" class="sr-only">Reps</label>
             <input type="text" id="reps" class="form-control" placeholder="Reps" required="" autofocus="" ng-model="set.reps">
             <label for="weight" class="sr-only">Weight</label>
             <input type="text" id="weight" class="form-control" placeholder="Weight" required="" ng-model="set.weight">
         </span>
         <p><a class="btn btn-lg btn-success" ng-click="addSet($index)" role="button">Add Set!</a></p>
-
+        <p><a class="btn btn-lg btn-success" ng-click="addDuplicateSet($index)" role="button">Duplicate Previous Set!</a></p>
+        <p><a class="btn btn-lg btn-success" ng-click="deleteSet($index)" role="button">Delete Previous Set!</a></p>
     </div>
         <p><a class="btn btn-lg btn-success" ng-click="addExercise()" role="button">Add Another Exercise!</a></p>
+        <p><a class="btn btn-lg btn-success" ng-click="deleteExercise()" role="button">Delete Previous Exercise!</a></p>
         <p><a class="btn btn-lg btn-success" ng-click="submit()" role="button">Submit!</a></p>
 
     </div>
