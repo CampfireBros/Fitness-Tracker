@@ -87,7 +87,21 @@ function TdeeCtrl($scope) {
 }
 
 function AccountCtrl($scope) {
+     $scope.goToTracker = function() {
+        $rootScope.trackerStyle = 'Body Building';
+        $rootScope.previousPage = 'account';
+        $location.path('tracker');
+    };
 
+     $scope.goToBodyFat = function() {
+         $rootScope.previousPage = 'account';
+         $location.path('bodyfat');
+    };
+
+      $scope.goToTdee = function() {
+        $rootScope.previousPage = 'account';
+        $location.path('tdee');
+    };
 }
 
 function BodyBuildingCtrl($scope, $rootScope, $location, $http, $sce) {
