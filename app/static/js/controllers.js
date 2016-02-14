@@ -86,7 +86,7 @@ function TdeeCtrl($scope) {
     };
 }
 
-function AccountCtrl($scope) {
+function AccountCtrl($scope, $rootScope, $location) {
      $scope.goToTracker = function() {
         $rootScope.trackerStyle = 'Body Building';
         $rootScope.previousPage = 'account';
