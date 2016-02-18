@@ -67,6 +67,8 @@ angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
             $rootScope.loggedIn = true;
         }
 
+        $rootScope.accountInfo = {};
+
         $rootScope.logout = function() {
             $rootScope.loggedIn = false;
             $cookies.remove('login');
