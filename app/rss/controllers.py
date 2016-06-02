@@ -75,6 +75,6 @@ def crossfit():
     return json.dumps(crossfit_feed)
 
 
-get_bodybuilding()
-get_crossfit()
-get_powerlifting()
+# get_bodybuilding()
+# get_crossfit()
+# get_powerlifting()

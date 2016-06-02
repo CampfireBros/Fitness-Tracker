@@ -1,2 +1,11 @@
 *.pyc
 .DS_Store
+.idea/
+__pycache__/
+app/__pycache__/
+app/database/__pycache__/
+app/exercises/__pycache__/
+app/main/__pycache__/
+app/rss/__pycache__/
+app/users/__pycache__/
+app/utils/__pycache__/
