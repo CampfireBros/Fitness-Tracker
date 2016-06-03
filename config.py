@@ -36,7 +36,7 @@ MONGODB_URL = "mongodb://admin:admin@ds041571.mongolab.com:41571/exercisedb"
 SALT = 'd8f473b018b447e9ae6f74786540131d'
 
 # Flag if in testing mode (disables sending emails)
-TESTING = False
+TESTING = True
 
 #MAIL_USERNAME = "exercisedb@exercisedb.com"
 MAIL_SERVER = 'smtp.gmail.com'
